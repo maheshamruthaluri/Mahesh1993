@@ -1,0 +1,110 @@
+<html>
+<head>
+	<title>Seaching Books with Google Api</title>
+	<body>
+		<h2>ScanBook</h2>
+
+<?php
+
+
+// your API key here
+$API_KEY = 'AIzaSyAcgEwagKMKbhtVUjLeXIzHCX4ZwvrGRlc';
+
+// this will include the libraries that were gotten with composer or downloaded directly
+require_once 'vendor/autoload.php';
+
+// instantiate the Google API Client
+$client = new Google_Client();
+$client->setApplicationName("ScanBook");
+$client->setDeveloperKey( $API_KEY );
+
+$ip = isset($_GET[])
+
+$sqlquery = isset($_GET['q']) ? $_GET['q'];
+// set isbn as default search type
+$queryType = isset($_GET['type']) ? $_GET['type']: 'isbn';
+// set options for your request
+$optParams = 'q=isbn:'.urlencode($sqlquery).'';
+if(isset($_GET['q']));
+
+//url for searching
+$url = 'https://www.googleapis.com/books/v'.$v.'/volumes?q='.$optParams.'&key='.$API_KEY.''; 
+
+//get url for google search
+$get_Url = file_get_contents($url);
+
+//decode
+$results = json_decode($get_Url, true);
+
+?>
+
+<?php
+    if(isset($_GEt['q']))
+     {
+	   $q = $GET_['q'];
+       }
+    else
+       echo "no isbn";
+	?>
+
+	<ul>
+	<?php foreach ($results['items'] as $item) { ?>
+	<li>
+	<p>
+	<img src="<?php echo rawurldecode($item['volumeInfo']['imageLinks']['smallThumbnail']);?>" /><br/>
+
+	Title: <input type = "label" name = "title"	value = "<?php echo	$item['volumeInfo']['title'];?>"></br>
+
+	</p>
+    Author: <?php echo $item['volumeInfo']['authors'][0];?></br>
+	  
+	Pages: <?php echo $item['volumeInfo']['pageCount'];?></br>
+
+	ISBN: <?php echo $_GET['q']; ?></br>
+
+
+	<form action = ScanBuyDB.php mwthod = "POST">
+		<table width = "225" height = "13">
+
+			<tr>
+				<td width = "225" height = "13">
+					<tr>
+						Title : <input type = "label" name = "Title" value = "<?php echo $item['voulumeInfo']['authors'][0];?>">
+					</tr>
+				</td></br>
+
+				<td width = "225" height = "13">
+					<tr>
+						Author: <input type = "label" name = "Author" value = "<?php echo $item['voulumeInfo']['authors'][0];?>">
+
+					</tr>
+				</td>
+
+				<td width = "225" height = "13">
+					<tr>
+						Page(s): <input type = "label" name = "pageCount" value = "<?php echo $item['volumeInfo']['pageCount'];?>">
+					</tr>
+
+
+				</td>
+
+				<td width = "225" height = "13">
+					<tr>
+						ISBN: <input type = "lable" name = "ISBN" value = "<?php echo $_GET['q'];?>"> 
+					</tr>
+				</td>
+			</tr>
+		</table>
+	</form>
+</li>
+
+<form id = "search" name = "search" action ="<?php echo?> method = "get">">
+	<input type ="text" id = "inputisbn" name ="q" placeholder = "Search Books by ISBN" >
+	<input type ="button" onclick = 'validate(inputisbn)' value = "Search">
+</form>
+</body>
+</html>
+	
+
+
+
